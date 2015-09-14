@@ -4,9 +4,14 @@ using System.Collections;
 public class AgentNeeds : MonoBehaviour {
 
     public Light hungerUI;
+
+	public GameObject foodSource;
+	public GameObject agent;
     //Variable keeps track of an agents hunger level, this value represents a 0-100% 
     // where 100% represents starving and 0% is full
     int hungerValue = 100;
+
+	public int hungerSearch = 50;
 
 	void Awake () {
         //Increase the agent's hunger level every 5 seconds
@@ -30,10 +35,12 @@ public class AgentNeeds : MonoBehaviour {
         }
 
 		//Seek food source
-        if (hungerValue <= 25) {
-			//Vector3 destination = this.transform.position;
+		if (hungerValue <= hungerSearch) {
+			//Vector3 destination = foodSource.transform.position;
 			
-			//MoveTo agentObj = (MoveTo)agent.GetComponent(typeof(MoveTo));
+			AutoAI agentObj = (AutoAI)agent.GetComponent(typeof(AutoAI));
+
+			//agentObj.StartCoroutine(Hunger());
 		}
 
         Debug.Log(hungerValue);
