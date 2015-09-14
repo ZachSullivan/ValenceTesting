@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MoveTo : MonoBehaviour {
+public class WanderLogic : MonoBehaviour {
 
     private Vector3 startPosition;
 
@@ -13,6 +13,9 @@ public class MoveTo : MonoBehaviour {
 
     //Allow user to choose a wandering radius for the agent
     public float wanderRange = 3.0f;
+
+
+
     private NavMeshAgent agent;
 
     void Awake() {
@@ -28,6 +31,10 @@ public class MoveTo : MonoBehaviour {
 
     void Wander() {
         Vector3 destination = startPosition + new Vector3(Random.Range(-wanderRange, wanderRange),0, Random.Range(-wanderRange, wanderRange));
+
+		/*if(!Physics.Raycast(transform.position,Vector3.forward,5)){
+			transform.Rotate(Vector3.up, rotateSpeed * Time.smoothDeltaTime);
+		}*/
 
         NewDestination(destination);
     }

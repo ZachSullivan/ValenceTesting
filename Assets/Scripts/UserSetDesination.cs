@@ -23,7 +23,7 @@ public class UserSetDesination : MonoBehaviour{
 
             Vector3 destination = this.transform.position;
 
-            MoveTo agentObj = (MoveTo)agent.GetComponent(typeof(MoveTo));
+            WanderLogic agentObj = (WanderLogic)agent.GetComponent(typeof(WanderLogic));
 
             //if (Input.GetButtonDown("LeftButton")){
 

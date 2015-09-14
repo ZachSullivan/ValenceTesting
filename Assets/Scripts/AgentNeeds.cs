@@ -29,9 +29,13 @@ public class AgentNeeds : MonoBehaviour {
             hungerValue--;
         }
 
+		//Seek food source
         if (hungerValue <= 25) {
-        
-}
+			//Vector3 destination = this.transform.position;
+			
+			//MoveTo agentObj = (MoveTo)agent.GetComponent(typeof(MoveTo));
+		}
+
         Debug.Log(hungerValue);
     }
 
