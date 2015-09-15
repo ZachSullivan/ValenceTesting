@@ -27,12 +27,15 @@ public class AutoAI : MonoBehaviour {
 	bool agentGoal = false;
 	
 	float startTime;
+	float speed = 0.05f;
+
 
 	int hungerValue = 100;
-	
+	int targetIndex;
+
 	Vector3 destination;
 	Vector3 startPosition;
-	
+	Vector3[] path;
 
 	public enum State {
 		Wander,
@@ -97,21 +100,39 @@ public class AutoAI : MonoBehaviour {
 
 	IEnumerator Hunger () {
 
-		startPosition = this.transform.position;
-
-		Vector3 destination = new Vector3 (foodSource.transform.position.x, 0.36f, foodSource.transform.position.z);
-
-		float newPos = 0;
-		float rate = 1.0f;
-
-		newPos += Time.deltaTime * rate;
-
-		transform.position = Vector3.MoveTowards(transform.position, destination, newPos);
-
-		//transform.rotation = Quaternion.Lerp(transform.rotation, foodSource.transform.rotation, newPos);
+		PathRequestManager.RequestPath(transform.position, foodSource.transform.position, OnPathFound);
 
 		yield return null;
 	}
+
+	public void OnPathFound(Vector3[] newPath, bool pathSuccessful){
+		if(pathSuccessful){
+			path = newPath;
+			StopCoroutine("FollowPath");
+			StartCoroutine("FollowPath");
+		}
+		
+	}
+
+	IEnumerator FollowPath(){
+		Vector3 currentWaypoint = path[0];
+		
+		while (true){
+			if(transform.position == currentWaypoint){
+				targetIndex++;
+				if(targetIndex >= path.Length){
+					yield break;
+				}
+				currentWaypoint = path[targetIndex];
+			}
+			
+			transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed);
+			
+			yield return null;
+		}
+	}
+
+
 
 	// Update is called once per frame
 	/*void Update () {
