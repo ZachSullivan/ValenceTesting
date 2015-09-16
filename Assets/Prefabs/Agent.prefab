@@ -11,7 +11,6 @@ GameObject:
   - 33: {fileID: 3388990}
   - 136: {fileID: 13684468}
   - 23: {fileID: 2363906}
-  - 114: {fileID: 11458396}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Untagged
@@ -136,25 +135,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &11458396
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 160578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c551523256d8b6742831fbaf23111a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotateSpeed: 10
-  agentSpeed: 3
-  raycastDistance: 1
-  wanderRange: 3
-  wandering: 1
-  hungerSearch: 50
-  foodSource: {fileID: 0}
-  state: 0
 --- !u!136 &13684468
 CapsuleCollider:
   m_ObjectHideFlags: 1

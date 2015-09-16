@@ -74,7 +74,7 @@ public class AutoAI : MonoBehaviour {
 			state = State.Hunger;
 		}
 		
-		Debug.Log(hungerValue);
+		print(hungerValue);
 	}
 	
 	IEnumerator FSM() {
@@ -138,34 +138,6 @@ public class AutoAI : MonoBehaviour {
 			yield return null;
 		}
 	}
-
-
-
-	// Update is called once per frame
-	/*void Update () {
-
-		StartCoroutine(DirectionChoice());
-
-		if(!Physics.Raycast(transform.position, transform.forward, raycastDistance)){
-			if (wandering == true) {
-
-				Wander();
-
-				//InvokeRepeating("Wander", 1f, 5f);
-			}
-		}
-		else {
-			transform.Rotate(Vector3.up, agentRotation * rotateSpeed * Time.smoothDeltaTime);
-		}
-		
-	}*/
-
-	/*void Wander() {
-
-		transform.Translate(Vector3.forward * agentSpeed * Time.smoothDeltaTime);
-		
-		//NewDestination(destination);
-	}*/
 
 	//Assign the agent a target to move towards
 	public void NewDestination(Vector3 targetPosition) {

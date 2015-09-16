@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Grid : MonoBehaviour {
 
-	public Transform agent;
+	GameObject agent;
 	public LayerMask unwalkableMask;
 	public Vector3 gridWorldSize;
 	public float nodeRadius;
@@ -12,6 +12,10 @@ public class Grid : MonoBehaviour {
 
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
+
+    void Start() {
+        agent = GameObject.FindWithTag("Agent");
+    }
 
 	void Awake(){
 
@@ -75,7 +79,7 @@ public class Grid : MonoBehaviour {
 
 		if(grid != null){
 
-			Node agentNode = NodeFromWorldPoint(agent.position);
+			Node agentNode = NodeFromWorldPoint(agent.transform.position);
 
 			foreach(Node n in grid){
 				Gizmos.color = (n.walkable)?Color.white:Color.red;
