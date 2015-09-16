@@ -19,7 +19,7 @@ public class AutoAI : MonoBehaviour {
 
 	private float agentRotation;
 
-	public GameObject foodSource;
+	//public GameObject foodSource;
 
 	public int hungerSearch = 50;
 	
@@ -37,6 +37,8 @@ public class AutoAI : MonoBehaviour {
 	Vector3 startPosition;
 	Vector3[] path;
 
+    GameObject foodSource;
+
 	public enum State {
 		Wander,
 		Hunger
@@ -44,6 +46,11 @@ public class AutoAI : MonoBehaviour {
 	}
 
 	public State state;
+
+    void Start() {
+
+        foodSource = GameObject.FindWithTag("Foodsource");
+    }
 
 	void Awake (){
 		startTime = Time.deltaTime;
