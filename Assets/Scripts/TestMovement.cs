@@ -152,8 +152,10 @@ public class TestMovement : MonoBehaviour {
 	protected virtual void Awake () {
 		seeker = GetComponent<Seeker>();
 
-		target = new Vector3 (Random.Range(-50,50),0,Random.Range(-50,-50));
 
+		transform.rotation = Random.rotation;
+		target = new Vector3 (Random.Range(-50,50),0,Random.Range(-50,50));
+		Debug.Log(target);
 		//This is a simple optimization, cache the transform component lookup
 		tr = transform;
 		

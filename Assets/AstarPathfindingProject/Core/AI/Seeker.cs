@@ -450,7 +450,9 @@ public class Seeker : MonoBehaviour, ISerializationCallbackReceiver {
 			}
 		}
 
-		Gizmos.color = new Color (0,1F,0,1F);
+		//Gizmos.color = new Color (0,1F,0,1F);
+		Gizmos.color = Color.red;
+
 
 		if (lastCompletedVectorPath != null) {
 			for (int i=0;i<lastCompletedVectorPath.Count-1;i++) {
