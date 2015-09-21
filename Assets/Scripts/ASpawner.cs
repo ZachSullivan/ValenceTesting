@@ -95,7 +95,7 @@ public class ASpawner : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-		Debug.Log(state.ToString());
+		//Debug.Log(state.ToString());
 	}
 	
 	IEnumerator FSM(int _agentPos)

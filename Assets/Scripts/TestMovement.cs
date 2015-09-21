@@ -146,6 +146,7 @@ public class TestMovement : MonoBehaviour {
 	ASpawner _ASpawner;
 
 	float _start_time;
+	float elapsed;
 
 	public bool hungry = false;
 	/** Holds if the Start function has been run.
@@ -279,21 +280,20 @@ public class TestMovement : MonoBehaviour {
 		seeker.StartPath (GetFeetPosition(), targetPosition);
 	}
 
-	void checkTime(){
-		_start_time = Time.time;
-	}
-	
 	public virtual void OnTargetReached () {
 
 		if(hungry){
 			//tell the agent to feed
 			_ASpawner.state = ASpawner.State.Feed;
-			//hungry = false;
+			elapsed = 0;
 		}
 		else{
-			target = new Vector3 (Random.Range(-15,15),0,Random.Range(-15,15));
+			RequestNewTarget();
 			StartCoroutine (RepeatTrySearchPath ());
 		}
+
+		_start_time = Time.time;
+		elapsed = 0;
 
 		//End of path has been reached
 		//If you want custom logic for when the AI has reached it's destination
@@ -301,7 +301,11 @@ public class TestMovement : MonoBehaviour {
 		//You can also create a new script which inherits from this one
 		//and override the function in that script
 	}
-	
+
+	void RequestNewTarget(){
+		target = new Vector3 (Random.Range(-15,15),0,Random.Range(-15,15));
+	}
+
 	/** Called when a requested path has finished calculation.
 	  * A path is first requested by #SearchPath, it is then calculated, probably in the same or the next frame.
 	  * Finally it is returned to the seeker which forwards it to this function.\n
@@ -311,7 +315,7 @@ public class TestMovement : MonoBehaviour {
 		if (p == null) throw new System.Exception ("This function only handles ABPaths, do not use special path types");
 		
 		canSearchAgain = true;
-		
+
 		//Claim the new path
 		p.Claim (this);
 		
@@ -321,11 +325,12 @@ public class TestMovement : MonoBehaviour {
 			p.Release (this);
 			return;
 		}
-		float elapsed = Time.time - _start_time;
+		elapsed = Time.time - _start_time;
 
-		Debug.Log(elapsed);
+		Debug.Log("Time: "+elapsed + _ASpawner.agentList[0]);
 
-		if (elapsed >= 0.05f){
+		if (elapsed >= 10 && !hungry){
+			RequestNewTarget();
 			StartCoroutine (RepeatTrySearchPath ());
 		}
 
@@ -334,7 +339,7 @@ public class TestMovement : MonoBehaviour {
 		
 		//Replace the old path
 		path = p;
-		
+
 		//Reset some variables
 		currentWaypointIndex = 0;
 		targetReached = false;
@@ -370,7 +375,7 @@ public class TestMovement : MonoBehaviour {
 	}
 	
 	public virtual void Update () {
-		
+
 		if (!canMove) { return; }
 		
 		Vector3 dir = CalculateVelocity (GetFeetPosition());
@@ -456,12 +461,7 @@ public class TestMovement : MonoBehaviour {
 		this.targetDirection = dir;
 		this.targetPoint = targetPosition;
 
-		System.DateTime startTime = System.DateTime.UtcNow;
-		float lastScanTime = (float)(System.DateTime.UtcNow-startTime).TotalSeconds;
 
-		if(lastScanTime >= 10){
-			RepeatTrySearchPath ();
-		}
 
 		if (currentWaypointIndex == vPath.Count-1 && targetDist <= endReachedDistance) {
 			if (!targetReached) { targetReached = true; OnTargetReached (); }
