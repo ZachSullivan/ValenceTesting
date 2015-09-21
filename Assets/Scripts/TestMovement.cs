@@ -325,6 +325,7 @@ public class TestMovement : MonoBehaviour {
 			p.Release (this);
 			return;
 		}
+
 		elapsed = Time.time - _start_time;
 
 		Debug.Log("Time: "+elapsed + _ASpawner.agentList[0]);

@@ -7,6 +7,8 @@ public class ASpawner : MonoBehaviour {
 	
 	public List<GameObject> agentList;
 
+	public List<int> hungerValList;
+
 	public int hungerSearch = 50;
 	
 	public int hungerValue = 100;
@@ -24,7 +26,7 @@ public class ASpawner : MonoBehaviour {
 	Vector3[] path;
 	
 	GameObject foodSource;
-	
+
 	public State state;
 
 	TestMovement _testMovement;
@@ -48,10 +50,12 @@ public class ASpawner : MonoBehaviour {
 		state = State.Wander;
 		//agentArr = new GameObject[spawnCounter];
 		agentList = new List<GameObject>();
-		
+
+		hungerValList = new List<int>();
+
 		StartCoroutine(InstantiateAgent());
 
-		InvokeRepeating("AgentHunger", 1, 1);
+
 		//Uncomment to enable hunger actions
 		//InvokeRepeating("AgentHunger", 1, 1);
 		
@@ -60,38 +64,44 @@ public class ASpawner : MonoBehaviour {
 	
 	void Start()
 	{
-		
+
 		foodSource = GameObject.FindWithTag("Foodsource");
 
 
 	}
 	
-	void AgentHunger()
+	IEnumerator AgentHunger(int _agentPos)
 	{
-		if(!feeding){
-			if (hungerValue > 0)
-			{
-				hungerValue--;
+
+			if(!feeding){
+				while(true && !feeding){
+					if (hungerValList[_agentPos] > 0)
+					{
+						hungerValList[_agentPos]--;
+
+						yield return new WaitForSeconds(1.0f);
+						Debug.Log(hungerValList[_agentPos]);
+
+					}
+
+				
+					if (hungerValList[_agentPos] <= hungerSearch)
+					{
+						//Vector3 destination = foodSource.transform.position;
+						state = State.Hunger;
+					}
+				}
 
 			}
-			
-			if (hungerValue <= hungerSearch)
-			{
-				//Vector3 destination = foodSource.transform.position;
-				state = State.Hunger;
-			}
 
-		}
-
-		else{
-			if(hungerValue < 100){
-				hungerValue++;
+			else{
+				while(true && feeding){
+					if(hungerValList[_agentPos] < 100){
+						hungerValList[_agentPos]++;
+						yield return new WaitForSeconds(1.0f);
+					}
+				}
 			}
-		}
-		//Seek food source
-		
-		
-		Debug.Log(hungerValue);
 	}
 
 	void FixedUpdate(){
@@ -99,14 +109,14 @@ public class ASpawner : MonoBehaviour {
 	}
 	
 	IEnumerator FSM(int _agentPos)
-	{
-		
-		
+	{	
+
 		while (true)
 		{
-			
+
 		
 			yield return StartCoroutine(state.ToString(), (_agentPos));
+			;
 
 		}
 	}
@@ -134,11 +144,11 @@ public class ASpawner : MonoBehaviour {
 
 		feeding = true;
 
-		if(hungerValue < hungerSearch){
-			hungerValue += 1;
+		if(hungerValList[_agentPos] < 100){
+			hungerValList[_agentPos] ++;
 		} 	
 
-		if (hungerValue == 100){
+		if (hungerValList[_agentPos] == 100){
 			state = State.Wander;
 		}
 
@@ -158,9 +168,11 @@ public class ASpawner : MonoBehaviour {
 			newAgent.name = "Agent" + newAgent.GetInstanceID();
 			
 			agentList.Add(newAgent);
+			hungerValList.Add(hungerValue);
 			StartCoroutine(FSM(i));
-			
-			yield return new WaitForSeconds(1.0f);
+			StartCoroutine(AgentHunger(i));
+
+			yield return new WaitForSeconds(5.0f);
 		}
 		
 		/* while (spawnCounter < 10) {

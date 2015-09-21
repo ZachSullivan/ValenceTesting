@@ -408,6 +408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Agent: {fileID: 119032, guid: 93f97ca79726c3140857be47492efc63, type: 2}
   agentList: []
+  hungerValList: 
   hungerSearch: 90
   hungerValue: 100
   spawnCounter: 5
