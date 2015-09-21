@@ -143,7 +143,7 @@ public class TestMovement : MonoBehaviour {
 	GameObject FoodSource;
 	GameObject Spawner;
 
-	ASpawner _ASpawner;
+	protected A_Needs _ANeeds;
 
 	float _start_time;
 	float elapsed;
@@ -170,9 +170,9 @@ public class TestMovement : MonoBehaviour {
 		seeker = GetComponent<Seeker>();
 
 		FoodSource = GameObject.FindWithTag("Foodsource");
-		Spawner = GameObject.FindWithTag("Spawner");
+		//Spawner = GameObject.FindWithTag("Spawner");
 
-		_ASpawner = Spawner.GetComponent<ASpawner>();
+		_ANeeds = GetComponent<A_Needs>();
 
 		transform.rotation = Random.rotation;
 		target = new Vector3 (Random.Range(-50,50),0,Random.Range(-50,50));
@@ -284,7 +284,8 @@ public class TestMovement : MonoBehaviour {
 
 		if(hungry){
 			//tell the agent to feed
-			_ASpawner.state = ASpawner.State.Feed;
+			//_ASpawner.state = ASpawner.State.Feed;
+			_ANeeds.Feed();
 			elapsed = 0;
 		}
 		else{
@@ -328,9 +329,10 @@ public class TestMovement : MonoBehaviour {
 
 		elapsed = Time.time - _start_time;
 
-		Debug.Log("Time: "+elapsed + _ASpawner.agentList[0]);
+		//Debug.Log("Time: "+elapsed + _ASpawner.agentList[0]);
 
 		if (elapsed >= 10 && !hungry){
+			_start_time = 0;
 			RequestNewTarget();
 			StartCoroutine (RepeatTrySearchPath ());
 		}

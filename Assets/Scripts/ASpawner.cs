@@ -72,7 +72,7 @@ public class ASpawner : MonoBehaviour {
 	
 	IEnumerator AgentHunger(int _agentPos)
 	{
-
+		/*
 			if(!feeding){
 				while(true && !feeding){
 					if (hungerValList[_agentPos] > 0)
@@ -101,7 +101,8 @@ public class ASpawner : MonoBehaviour {
 						yield return new WaitForSeconds(1.0f);
 					}
 				}
-			}
+			}*/
+		yield return null;
 	}
 
 	void FixedUpdate(){
@@ -123,7 +124,7 @@ public class ASpawner : MonoBehaviour {
 	
 	IEnumerator Wander(int _agentPos)
 	{
-		agentList[_agentPos].GetComponent<TestMovement>().hungry = false;
+		//agentList[_agentPos].GetComponent<TestMovement>().hungry = false;
 		//Pass wander state to testmovement
 		//_testMovement.hungry = false;
 		yield return null;
@@ -135,7 +136,7 @@ public class ASpawner : MonoBehaviour {
 	{
 		
 		//Pass Hunger state to testmovement
-		agentList[_agentPos].GetComponent<TestMovement>().hungry = true;
+		//agentList[_agentPos].GetComponent<TestMovement>().hungry = true;
 		//_testMovement.hungry = true;
 		yield return null;
 	}

@@ -4,32 +4,75 @@ using System.Collections;
 public class A_Needs : MonoBehaviour {
 
 	GameObject foodSource;
-	GameObject agent;
+	public TestMovement _testMovement;
 	//Variable keeps track of an agents hunger level, this value represents a 0-100% 
 	// where 100% represents starving and 0% is full
-	int hungerValue = 100;
-	
-	public int hungerSearch = 50;
+	public int hungerValue = 100;
+	public bool feeding = false;
+
+	public int hungerSearch = 90;
 	
 	void Awake () {
+		feeding = false;
 		foodSource = GameObject.FindWithTag("Foodsource");
+		_testMovement = gameObject.GetComponent<TestMovement>();
 		//Increase the agent's hunger level every 5 seconds
-		InvokeRepeating("AgentHunger", 1, 1);
+
 	}
-		
-	void AgentHunger() {
-		
-		if (hungerValue > 0){
-			hungerValue--;
+
+	void Start(){
+		StartCoroutine(AgentHunger());
+		//InvokeRepeating("AgentHunger", 1, 1);
+	}
+
+	void Update(){
+
+	}
+
+
+	IEnumerator AgentHunger() {
+		if(!feeding){
+			while(true && !feeding){
+				if (hungerValue > 0)
+				{
+					hungerValue--;
+					
+					yield return new WaitForSeconds(1.0f);
+					
+				}
+				
+				
+				if (hungerValue <= hungerSearch)
+				{
+					
+					_testMovement.hungry = true;
+					//gameObject.GetComponent<TestMovement>().hungry = true;
+				}
+			}
 		}
 		
-		//Seek food source
-		if (hungerValue <= hungerSearch) {
-			//Vector3 destination = foodSource.transform.position;
-			
-			AutoAI agentObj = (AutoAI)agent.GetComponent(typeof(AutoAI));
-			
-			//agentObj.StartCoroutine(Hunger());
+		
+		
+		else{
+			while(true && feeding){
+				if(hungerValue < 100){
+					hungerValue++;
+					yield return new WaitForSeconds(1.0f);
+				}
+			}
+		}
+
+	}
+
+	public void Feed(){
+		feeding = true;
+		
+		if(hungerValue < 100){
+			hungerValue ++;
+		} 	
+		
+		if (hungerValue == 100){
+			_testMovement.hungry = false;
 		}
 	}
 }

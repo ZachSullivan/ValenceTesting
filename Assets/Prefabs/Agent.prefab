@@ -15,6 +15,7 @@ GameObject:
   - 114: {fileID: 11415984}
   - 143: {fileID: 14374478}
   - 114: {fileID: 11428486}
+  - 114: {fileID: 11476106}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Untagged
@@ -115,7 +116,7 @@ MonoBehaviour:
   forwardLook: 1
   endReachedDistance: .200000003
   closestOnPathCheck: 1
-  hungry: 1
+  hungry: 0
 --- !u!114 &11428486
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -137,6 +138,21 @@ MonoBehaviour:
   bezierTangentLength: .400000006
   offset: .200000003
   factor: .100000001
+--- !u!114 &11476106
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 119032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66c2f1bb649e4a34c911a1ab4d556d7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _testMovement: {fileID: 0}
+  hungerValue: 100
+  feeding: 0
+  hungerSearch: 90
 --- !u!136 &13624034
 CapsuleCollider:
   m_ObjectHideFlags: 1

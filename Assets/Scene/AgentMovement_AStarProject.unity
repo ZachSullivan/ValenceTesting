@@ -409,7 +409,7 @@ MonoBehaviour:
   Agent: {fileID: 119032, guid: 93f97ca79726c3140857be47492efc63, type: 2}
   agentList: []
   hungerValList: 
-  hungerSearch: 90
+  hungerSearch: 80
   hungerValue: 100
   spawnCounter: 5
   currentSpawnCount: 0
@@ -885,7 +885,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &327056528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1418,7 +1418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &674987076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1940,7 +1940,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &910245309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2246,7 +2246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &980009370
 Transform:
   m_ObjectHideFlags: 0
@@ -2756,6 +2756,14 @@ Prefab:
       propertyPath: FoodSource
       value: 
       objectReference: {fileID: 724617205}
+    - target: {fileID: 11415984, guid: 93f97ca79726c3140857be47492efc63, type: 2}
+      propertyPath: hungry
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 119032, guid: 93f97ca79726c3140857be47492efc63, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 93f97ca79726c3140857be47492efc63, type: 2}
   m_IsPrefabParent: 0
@@ -3113,7 +3121,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1309130011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3657,7 +3665,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1372174730
 Transform:
   m_ObjectHideFlags: 0
@@ -4795,7 +4803,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1616167880
 MonoBehaviour:
   m_ObjectHideFlags: 0
