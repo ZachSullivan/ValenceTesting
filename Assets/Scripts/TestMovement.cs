@@ -139,7 +139,15 @@ public class TestMovement : MonoBehaviour {
 			return targetReached;
 		}
 	}
-	
+
+	GameObject FoodSource;
+	GameObject Spawner;
+
+	ASpawner _ASpawner;
+
+	float _start_time;
+
+	public bool hungry = false;
 	/** Holds if the Start function has been run.
 	 * Used to test if coroutines should be started in OnEnable to prevent calculating paths
 	 * in the awake stage (or rather before start on frame 0).
@@ -149,9 +157,21 @@ public class TestMovement : MonoBehaviour {
 	/** Initializes reference variables.
 	 * If you override this function you should in most cases call base.Awake () at the start of it.
 	  * */
+
+	public enum State
+	{
+		Wander,
+		Hunger
+		//States go here
+	}
+
 	protected virtual void Awake () {
 		seeker = GetComponent<Seeker>();
 
+		FoodSource = GameObject.FindWithTag("Foodsource");
+		Spawner = GameObject.FindWithTag("Spawner");
+
+		_ASpawner = Spawner.GetComponent<ASpawner>();
 
 		transform.rotation = Random.rotation;
 		target = new Vector3 (Random.Range(-50,50),0,Random.Range(-50,50));
@@ -242,7 +262,11 @@ public class TestMovement : MonoBehaviour {
 		lastRepath = Time.time;
 		//This is where we should search to
 		Vector3 targetPosition = target;
-		
+
+		if(hungry){
+			target = FoodSource.transform.position;
+		}
+
 		canSearchAgain = false;
 		
 		//Alternative way of requesting the path
@@ -250,14 +274,26 @@ public class TestMovement : MonoBehaviour {
 		//seeker.StartPath (p);
 		
 		//We should search from the current position
+
+
 		seeker.StartPath (GetFeetPosition(), targetPosition);
+	}
+
+	void checkTime(){
+		_start_time = Time.time;
 	}
 	
 	public virtual void OnTargetReached () {
 
-
-		target = new Vector3 (Random.Range(-15,15),0,Random.Range(-15,15));
-		StartCoroutine (RepeatTrySearchPath ());
+		if(hungry){
+			//tell the agent to feed
+			_ASpawner.state = ASpawner.State.Feed;
+			//hungry = false;
+		}
+		else{
+			target = new Vector3 (Random.Range(-15,15),0,Random.Range(-15,15));
+			StartCoroutine (RepeatTrySearchPath ());
+		}
 
 		//End of path has been reached
 		//If you want custom logic for when the AI has reached it's destination
@@ -285,7 +321,14 @@ public class TestMovement : MonoBehaviour {
 			p.Release (this);
 			return;
 		}
-		
+		float elapsed = Time.time - _start_time;
+
+		Debug.Log(elapsed);
+
+		if (elapsed >= 0.05f){
+			StartCoroutine (RepeatTrySearchPath ());
+		}
+
 		//Release the previous path
 		if (path != null) path.Release (this);
 		
@@ -412,7 +455,14 @@ public class TestMovement : MonoBehaviour {
 		
 		this.targetDirection = dir;
 		this.targetPoint = targetPosition;
-		
+
+		System.DateTime startTime = System.DateTime.UtcNow;
+		float lastScanTime = (float)(System.DateTime.UtcNow-startTime).TotalSeconds;
+
+		if(lastScanTime >= 10){
+			RepeatTrySearchPath ();
+		}
+
 		if (currentWaypointIndex == vPath.Count-1 && targetDist <= endReachedDistance) {
 			if (!targetReached) { targetReached = true; OnTargetReached (); }
 			
