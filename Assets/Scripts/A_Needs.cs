@@ -21,8 +21,8 @@ public class A_Needs : MonoBehaviour {
 	}
 
 	void Start(){
-		StartCoroutine(AgentHunger());
-		//InvokeRepeating("AgentHunger", 1, 1);
+		//StartCoroutine(AgentHunger());
+		InvokeRepeating("AgentHunger", 1, 1);
 	}
 
 	void Update(){
@@ -30,14 +30,15 @@ public class A_Needs : MonoBehaviour {
 	}
 
 
-	IEnumerator AgentHunger() {
+	//IEnumerator AgentHunger() {
+	void AgentHunger(){
 		if(!feeding){
-			while(true && !feeding){
+			//while(!feeding){
 				if (hungerValue > 0)
 				{
 					hungerValue--;
 					
-					yield return new WaitForSeconds(1.0f);
+					//yield return new WaitForSeconds(1.0f);
 					
 				}
 				
@@ -49,30 +50,36 @@ public class A_Needs : MonoBehaviour {
 					//gameObject.GetComponent<TestMovement>().hungry = true;
 				}
 			}
-		}
+		//}
 		
 		
 		
 		else{
-			while(true && feeding){
+			//while(feeding){
 				if(hungerValue < 100){
 					hungerValue++;
-					yield return new WaitForSeconds(1.0f);
+					//yield return new WaitForSeconds(1.0f);
 				}
 			}
-		}
+		//}
 
+		if (hungerValue == 100){
+			
+			feeding = false;
+			//StartCoroutine(AgentHunger());
+		}
+		
 	}
 
 	public void Feed(){
 		feeding = true;
 		
 		if(hungerValue < 100){
+			_testMovement.hungry = false;
 			hungerValue ++;
+
 		} 	
 		
-		if (hungerValue == 100){
-			_testMovement.hungry = false;
-		}
+
 	}
 }
