@@ -304,7 +304,7 @@ public class TestMovement : MonoBehaviour {
 	}
 
 	void RequestNewTarget(){
-		target = new Vector3 (Random.Range(-15,15),0,Random.Range(-15,15));
+		target = new Vector3 (Random.Range(-50,50),0,Random.Range(-15,15));
 	}
 
 	/** Called when a requested path has finished calculation.

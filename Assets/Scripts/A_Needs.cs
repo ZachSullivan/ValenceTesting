@@ -68,6 +68,10 @@ public class A_Needs : MonoBehaviour {
 			feeding = false;
 			//StartCoroutine(AgentHunger());
 		}
+
+		if (hungerValue == 0) {
+			Destroy(this.gameObject);
+		}
 		
 	}
 
