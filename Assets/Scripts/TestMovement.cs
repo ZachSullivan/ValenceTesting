@@ -107,7 +107,7 @@ public class TestMovement : MonoBehaviour {
 	protected float lastRepath = -9999;
 	
 	/** Current path which is followed */
-	protected Path path;
+	public Path path;
 	
 	/** Cached CharacterController component */
 	protected CharacterController controller;
@@ -292,9 +292,10 @@ public class TestMovement : MonoBehaviour {
 			RequestNewTarget();
 			StartCoroutine (RepeatTrySearchPath ());
 		}
-
+		//_start_time = 0;
 		_start_time = Time.time;
 		elapsed = 0;
+
 
 		//End of path has been reached
 		//If you want custom logic for when the AI has reached it's destination
@@ -303,7 +304,12 @@ public class TestMovement : MonoBehaviour {
 		//and override the function in that script
 	}
 
+	public void ResetTime(){
+		_start_time = Time.time;
+	}
+
 	void RequestNewTarget(){
+		ResetTime ();
 		target = new Vector3 (Random.Range(-50,50),0,Random.Range(-15,15));
 	}
 
@@ -328,11 +334,12 @@ public class TestMovement : MonoBehaviour {
 		}
 
 		elapsed = Time.time - _start_time;
-
+		print ("ELS: " + elapsed);
 		//Debug.Log("Time: "+elapsed + _ASpawner.agentList[0]);
 
 		if (elapsed >= 10 && !hungry){
-			_start_time = 0;
+			//_start_time = 0;
+			//path.Release (this);
 			RequestNewTarget();
 			StartCoroutine (RepeatTrySearchPath ());
 		}
@@ -378,6 +385,10 @@ public class TestMovement : MonoBehaviour {
 	}
 	
 	public virtual void Update () {
+
+
+
+		
 
 		if (!canMove) { return; }
 		
