@@ -53,7 +53,6 @@ public class A_Needs : MonoBehaviour {
 		//}
 		
 		
-		
 		else{
 			//while(feeding){
 				if(hungerValue < 100){

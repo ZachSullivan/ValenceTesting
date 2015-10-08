@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
 public class ASpawner : MonoBehaviour {
 	
 	public GameObject Agent;
@@ -8,10 +10,8 @@ public class ASpawner : MonoBehaviour {
 	public List<GameObject> agentList;
 
 	public List<int> hungerValList;
-
-	public int hungerSearch = 50;
 	
-	public int hungerValue = 100;
+	int hungerValue = 100;
 	
 	private float agentRotation;
 	
@@ -19,15 +19,17 @@ public class ASpawner : MonoBehaviour {
 	
 	float startTime;
 	
-	public int currentSpawnCount;
-	
 	int targetIndex;
 	
 	Vector3[] path;
 	
 	GameObject foodSource;
+    GameObject agentPop;
 
-	public State state;
+    //Gui text to display agent population 
+    Text aPopGui;
+
+    public State state;
 
 	TestMovement _testMovement;
 
@@ -53,7 +55,7 @@ public class ASpawner : MonoBehaviour {
 
 		hungerValList = new List<int>();
 
-		StartCoroutine(InstantiateAgent());
+		
 
 
 		//Uncomment to enable hunger actions
@@ -66,9 +68,11 @@ public class ASpawner : MonoBehaviour {
 	{
 
 		foodSource = GameObject.FindWithTag("Foodsource");
+        agentPop = GameObject.Find("AgentPop");
 
-
-	}
+        aPopGui = agentPop.GetComponent<Text>();
+        StartCoroutine(InstantiateAgent());
+    }
 	
 	IEnumerator AgentHunger(int _agentPos)
 	{
@@ -172,6 +176,8 @@ public class ASpawner : MonoBehaviour {
 			hungerValList.Add(hungerValue);
 			StartCoroutine(FSM(i));
 			StartCoroutine(AgentHunger(i));
+
+            aPopGui.text = "Agents: " + (i + 1);
 
 			yield return new WaitForSeconds(5.0f);
 		}

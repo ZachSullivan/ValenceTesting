@@ -110,7 +110,9 @@ public class cameraController : MonoBehaviour {
 		//Check for Mouse Input
 
 			//Mouse Edge Screen Detection
-		if (Input.mousePosition.x < scrollArea)
+            //REMOVED FOR TESTING Zach
+
+		/*if (Input.mousePosition.x < scrollArea)
 		{
 			translation += Vector3.right * -scrollSpeed * Time.deltaTime;
 		}
@@ -128,7 +130,7 @@ public class cameraController : MonoBehaviour {
 		if (Input.mousePosition.y > Screen.height - scrollArea)
 		{
 			translation += Vector3.forward * scrollSpeed * Time.deltaTime;
-		}
+		}*/
 
 
 		// Check Play Area Bounds
