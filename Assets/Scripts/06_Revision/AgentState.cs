@@ -31,14 +31,15 @@ public class AgentState : MonoBehaviour {
 	AgentPathfinder _agentPathfinder;
 	
 	//Create a series of possible states for the agent to be in
-	enum agentState
+	public enum agentState
 	{
 		Wandering,
 		Hungry,
-		Working
+		Working,
+		Default
 	}
 	
-	agentState aState;
+	public agentState aState;
 	
 	void Awake() {
 		
@@ -48,7 +49,7 @@ public class AgentState : MonoBehaviour {
 		WorkWaypoint = GameObject.FindGameObjectWithTag ("WorkWaypoint");
 
 		//When an agent spawns, he should start by wandering
-		aState = agentState.Wandering;
+		aState = agentState.Default;
 		
 		//When an agent spawns, start updating his hunger level
 		updateHunger();
@@ -76,21 +77,26 @@ public class AgentState : MonoBehaviour {
 			if(!feeding && hungerValue <= hungerSearch){
 				_agentController.hungry = true;
 			}
+
+
+
 			break;
 
 		case agentState.Working:
 
-			_agentController.target = WorkWaypoint.transform.position;
-
-			if(hasFinished2 = false){
-				Vector3 tempTarget = new Vector3 (Random.Range (-workRadius, workRadius), 0, Random.Range (-workRadius, workRadius));
-
-				if (Vector3.Distance(tempTarget, WorkWaypoint.transform.position) < workRadius)
-					_agentController.target = tempTarget;
-					hasFinished2 = true;
+			if(hasFinished2 == false){
+				_agentController.target = WorkWaypoint.transform.position;
+				hasFinished2 = true;
+				aState = agentState.Working;
 			}
+
+			if(transform.position == WorkWaypoint.transform.position)
+				_agentController.OnTargetReached();
+			//aState = agentState.Working;
+
+
 			break;
-		default:
+		case agentState.Default:
 			print("Default reached in AgentFSM Update");
 			break;
 		}
@@ -157,7 +163,7 @@ public class AgentState : MonoBehaviour {
 	
 	void Wander() {
 		print("Currently Wandering");
-		if (hasFinished == true) {
+		if (hasFinished == true && aState == agentState.Wandering) {
 			_agentController.target = new Vector3 (Random.Range (-50, 50), 0, Random.Range (-50, 50));
 			hasFinished = false;
 		}

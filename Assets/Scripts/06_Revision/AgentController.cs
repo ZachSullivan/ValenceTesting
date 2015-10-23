@@ -142,6 +142,7 @@ public class AgentController : MonoBehaviour {
 
 	GameObject FoodSource;
 	GameObject Spawner;
+	GameObject WorkWaypoint;
 
 	public AgentState _AState;
 
@@ -170,12 +171,13 @@ public class AgentController : MonoBehaviour {
 		seeker = GetComponent<Seeker>();
 
 		FoodSource = GameObject.FindWithTag("Foodsource");
+		WorkWaypoint = GameObject.FindGameObjectWithTag ("WorkWaypoint");
 		//Spawner = GameObject.FindWithTag("Spawner");
 
 		_AState = GetComponent<AgentState>();
 
 		transform.rotation = Random.rotation;
-		target = new Vector3 (Random.Range(-50,50),0,Random.Range(-50,50));
+
 		Debug.Log(target);
 		//This is a simple optimization, cache the transform component lookup
 		tr = transform;
@@ -288,10 +290,21 @@ public class AgentController : MonoBehaviour {
 			_AState.Feed();
 			elapsed = 0;
 		}
-		else{
+
+		if(_AState.aState == AgentState.agentState.Working){
+			
+			print ("WORKKKKKKS");
+			target = new Vector3 (Random.Range (-2, 2), 0, Random.Range (-2, 2));
+			StartCoroutine (RepeatTrySearchPath ());
+		}
+
+		if(_AState.aState == AgentState.agentState.Wandering){
 			RequestNewTarget();
 			StartCoroutine (RepeatTrySearchPath ());
 		}
+
+
+
 		//_start_time = 0;
 		_start_time = Time.time;
 		elapsed = 0;
@@ -311,6 +324,13 @@ public class AgentController : MonoBehaviour {
 	void RequestNewTarget(){
 		ResetTime ();
 		target = new Vector3 (Random.Range(-50,50),0,Random.Range(-15,15));
+	}
+
+	public void RequestNewWorkTarget(){
+		ResetTime ();
+
+		target = new Vector3 (Random.Range (-2, 2), 0, Random.Range (-2, 2));
+
 	}
 
 	/** Called when a requested path has finished calculation.

@@ -101,7 +101,9 @@ MonoBehaviour:
   _agentController: {fileID: 11481532}
   hungerValue: 100
   feeding: 0
-  hungerSearch: 90
+  hungerSearch: 40
+  workRadius: 20
+  aState: 0
 --- !u!114 &11481532
 MonoBehaviour:
   m_ObjectHideFlags: 1
