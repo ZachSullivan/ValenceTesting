@@ -11309,6 +11309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  aState: 0
 --- !u!114 &1877775627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11325,7 +11326,7 @@ MonoBehaviour:
   pickNextWaypointDistance: 1
   targetReached: .200000003
   speed: 5
-  rotationSpeed: 1
+  rotationSpeed: 3
   drawGizmos: 0
   canSearch: 1
   canMove: 1
