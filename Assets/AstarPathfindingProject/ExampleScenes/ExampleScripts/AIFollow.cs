@@ -58,7 +58,9 @@ public class AIFollow : MonoBehaviour {
 	
 	/** This is the path the AI is currently following */
 	protected Vector3[] path;
-	
+
+	public WorkLogic workLogic;
+
 	/** Use this for initialization */
 	public void Start () {
 		seeker = GetComponent<Seeker>();
@@ -190,6 +192,8 @@ public class AIFollow : MonoBehaviour {
 	 */
 	public virtual void ReachedEndOfPath () {
 		//The AI has reached the end of the path
+
+		print ("HERE");
 	}
 	
 	/** Update is called once per frame */
@@ -207,7 +211,8 @@ public class AIFollow : MonoBehaviour {
 			if (pathIndex >= path.Length) {
 				//Use a lower pickNextWaypointDistance for the last point. If it isn't that close, then decrement the pathIndex to the previous value and break the loop
 				if ((currentWaypoint - tr.position).sqrMagnitude < (pickNextWaypointDistance*targetReached)*(pickNextWaypointDistance*targetReached)) {
-					ReachedEndOfPath ();
+					//ReachedEndOfPath ();
+					workLogic.TargetReached();
 					return;
 				} else {
 					pathIndex--;
