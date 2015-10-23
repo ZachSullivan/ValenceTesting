@@ -7,6 +7,7 @@ TagManager:
   - Agent
   - Foodsource
   - Spawner
+  - WorkWaypoint
   layers:
   - Default
   - TransparentFX

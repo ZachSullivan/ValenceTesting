@@ -12,8 +12,13 @@ public class AgentState : MonoBehaviour {
 	
 	public int hungerSearch = 90;
 
-	bool hasFinished = true;
+	GameObject WorkWaypoint;
 
+	//The defining radius which an agent will move around within a building
+	public int workRadius;
+
+	bool hasFinished = true;
+	bool hasFinished2 = false;
 	/*void Awake () {
 		feeding = false;
 		foodSource = GameObject.FindWithTag("Foodsource");
@@ -29,7 +34,8 @@ public class AgentState : MonoBehaviour {
 	enum agentState
 	{
 		Wandering,
-		Hungry
+		Hungry,
+		Working
 	}
 	
 	agentState aState;
@@ -38,7 +44,9 @@ public class AgentState : MonoBehaviour {
 		
 		//Find the agent movement controller attached
 		_agentPathfinder = GetComponent<AgentPathfinder>();
-		
+
+		WorkWaypoint = GameObject.FindGameObjectWithTag ("WorkWaypoint");
+
 		//When an agent spawns, he should start by wandering
 		aState = agentState.Wandering;
 		
@@ -51,6 +59,11 @@ public class AgentState : MonoBehaviour {
 		InvokeRepeating("AgentHunger", 1, 1);
 	}
 
+	void OnGUI() {
+		if (GUI.Button(new Rect(10,30, 100, 20),"Work")) {
+			aState = agentState.Working;
+		}
+	}
 	
 	void Update() {
 		switch (aState) {
@@ -60,10 +73,22 @@ public class AgentState : MonoBehaviour {
 			break;
 		case agentState.Hungry:
 
-			if(!feeding){
+			if(!feeding && hungerValue <= hungerSearch){
 				_agentController.hungry = true;
 			}
+			break;
 
+		case agentState.Working:
+
+			_agentController.target = WorkWaypoint.transform.position;
+
+			if(hasFinished2 = false){
+				Vector3 tempTarget = new Vector3 (Random.Range (-workRadius, workRadius), 0, Random.Range (-workRadius, workRadius));
+
+				if (Vector3.Distance(tempTarget, WorkWaypoint.transform.position) < workRadius)
+					_agentController.target = tempTarget;
+					hasFinished2 = true;
+			}
 			break;
 		default:
 			print("Default reached in AgentFSM Update");

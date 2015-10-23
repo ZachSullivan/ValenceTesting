@@ -1318,7 +1318,7 @@ GameObject:
   - 4: {fileID: 496269829}
   m_Layer: 0
   m_Name: WorkWaypoint
-  m_TagString: Untagged
+  m_TagString: WorkWaypoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1330,7 +1330,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 496269828}
   m_LocalRotation: {x: 0, y: -.981040716, z: 0, w: -.193801612}
-  m_LocalPosition: {x: -22.2099991, y: -.419999987, z: 31.6900005}
+  m_LocalPosition: {x: -21.4699993, y: -.419999987, z: 31.7900009}
   m_LocalScale: {x: 2.24212503, y: 2.24212408, z: 2.24212408}
   m_Children: []
   m_Father: {fileID: 0}
