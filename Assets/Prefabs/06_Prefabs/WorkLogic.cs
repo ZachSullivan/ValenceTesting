@@ -28,8 +28,8 @@ public class WorkLogic : MonoBehaviour {
 	public agentState aState;
 
 	void Start(){
-        //target = GameObject.FindGameObjectWithTag ("WorkWaypoint").transform;
 
+        
         aiFollow = GetComponent<AIFollow>();
 
         workWaypoints = new List<GameObject>(GameObject.FindGameObjectsWithTag("WorkWaypoint"));
@@ -45,16 +45,17 @@ public class WorkLogic : MonoBehaviour {
 		switch (aState) {
 		case agentState.Wandering:
 
-			break;
+            break;
 		case agentState.Hungry:
 						
 			break;
 			
 		case agentState.Working:
-            if (waypointIndex == 0){
-                aiFollow.target = workWaypoints[waypointIndex].transform;
-                waypointIndex += 1;
-            }
+
+           
+            aiFollow.target = workWaypoints[waypointIndex].transform;
+                
+            
 			//aState = agentState.Working;
 			break;
 		case agentState.Default:
@@ -72,7 +73,10 @@ public class WorkLogic : MonoBehaviour {
     
 	public void TargetReached(){
 
-		if(aState == agentState.Working){
+
+        if (aState == agentState.Wandering){
+            aiFollow.target.position = new Vector3(Random.Range(-50, 50), 0, Random.Range(-50, 50));
+        }   else if (aState == agentState.Working){
 
 
             /*if(PointInsideSphere(transform.position,GameObject.FindGameObjectWithTag ("WorkWaypoint").transform.position, 1.0f) != true){
@@ -85,21 +89,12 @@ public class WorkLogic : MonoBehaviour {
 				target.position = new Vector3(transform.position.x + tempPosx,transform.position.y,transform.position.z + tempPosz);
 			}*/
 
-            /*if (waypointIndex <= workWaypoints.Count) {
-
-                waypointIndex += 1;
-                aiFollow.target = workWaypoints[waypointIndex].transform;
-
-            }   else {
-                waypointIndex = 0;
-                aState = agentState.Working;
-            }*/
-
             waypointIndex = Random.Range(0, workWaypoints.Count);
             aiFollow.target = workWaypoints[waypointIndex].transform;
 
-
         }
+
+
 
 		/*
 		 * if State1 
