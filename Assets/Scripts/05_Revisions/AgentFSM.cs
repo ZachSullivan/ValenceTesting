@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AgentFSM : MonoBehaviour {
+public class AgentFSM : AIPath {
 
     //Used to control the movement of the agent
-    AgentPathfinder _agentPathfinder;
+    AIPath _agentPathfinder;
+
+    bool canAddTarget = true;
 
     //Create a series of possible states for the agent to be in
     enum agentState
@@ -18,7 +20,7 @@ public class AgentFSM : MonoBehaviour {
     void Awake() {
 
         //Find the agent movement controller attached
-        _agentPathfinder = GetComponent<AgentPathfinder>();
+        _agentPathfinder = GetComponent<AIPath>();
 
         //When an agent spawns, he should start by wandering
         aState = agentState.Wandering;
@@ -28,10 +30,24 @@ public class AgentFSM : MonoBehaviour {
     }
 
     void Update() {
+
+        print("aState");
+
         switch (aState) {
             case agentState.Wandering:
-                Wander();
-                aState = agentState.Wandering;
+
+                if (canAddTarget) {
+                    _agentPathfinder.RequestNewTarget();
+
+                    canAddTarget = false;
+                }
+
+                OnTargetReached();
+
+                
+                // _agentPathfinder.RequestNewTarget();
+                //Wander();
+                //aState = agentState.Wandering;
                 break;
             case agentState.Hungry:
                 SearchForFood();
@@ -42,15 +58,33 @@ public class AgentFSM : MonoBehaviour {
         }
     }
 
+
+    public override void OnTargetReached()
+    {
+        base.OnTargetReached();
+
+        StartCoroutine(AssignTarget(2.0f));
+    }
+
+    IEnumerator AssignTarget(float _waitTime) {
+        target = new Vector3(Random.Range(-50, 50), 0, Random.Range(-15, 15));
+        yield return new WaitForSeconds(_waitTime);
+    }
+
     void Wander() {
         print("Currently Wandering");
-        _agentPathfinder.aState = AgentPathfinder.actionState.Wandering;
+        /*if (_agentPathfinder.canPlaceTarget == true)
+        {
+            _agentPathfinder.RequestNewTarget();
+            _agentPathfinder.canPlaceTarget = false;
+        }*/
+        //_agentPathfinder.aState = AgentPathfinder.actionState.Wandering;
         
     }
 
     void SearchForFood() {
         print("Currently Hungry");
-        _agentPathfinder.aState = AgentPathfinder.actionState.Hungry;
+        //_agentPathfinder.aState = AgentPathfinder.actionState.Hungry;
     }
 
     void updateHunger() {

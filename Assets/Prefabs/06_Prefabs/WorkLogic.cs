@@ -1,13 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Pathfinding;
 
 public class WorkLogic : MonoBehaviour {
 
-	//Point agent will move to
-	public Transform target;
+    //Point agent will move to
+    //public Transform target;
 
-	AIFollow aiFollow;
+    //List of all work waypoints
+    public List<GameObject> workWaypoints = new List<GameObject>();
+
+    //Keep track of the current waypoint the agent moves to when working
+    //Counter associated to workWaypoints list index
+    int waypointIndex;
+
+    AIFollow aiFollow;
 
 	public enum agentState
 	{
@@ -20,12 +28,16 @@ public class WorkLogic : MonoBehaviour {
 	public agentState aState;
 
 	void Start(){
-		target = GameObject.FindGameObjectWithTag ("WorkWaypoint").transform;
+        //target = GameObject.FindGameObjectWithTag ("WorkWaypoint").transform;
 
-		aiFollow = GetComponent<AIFollow>();
+        aiFollow = GetComponent<AIFollow>();
 
-		//When an agent spawns, he should start by wandering
-		aState = agentState.Working;
+        workWaypoints = new List<GameObject>(GameObject.FindGameObjectsWithTag("WorkWaypoint"));
+
+        waypointIndex = 0;
+
+        //When an agent spawns, he should start by wandering
+        aState = agentState.Working;
 
 	}
 
@@ -39,8 +51,10 @@ public class WorkLogic : MonoBehaviour {
 			break;
 			
 		case agentState.Working:
-			
-			aiFollow.target = target;
+            if (waypointIndex == 0){
+                aiFollow.target = workWaypoints[waypointIndex].transform;
+                waypointIndex += 1;
+            }
 			//aState = agentState.Working;
 			break;
 		case agentState.Default:
@@ -55,12 +69,13 @@ public class WorkLogic : MonoBehaviour {
 		return Vector3.Distance(point, center) < radius;
 	}
 
+    
 	public void TargetReached(){
 
 		if(aState == agentState.Working){
 
 
-			if(PointInsideSphere(transform.position,GameObject.FindGameObjectWithTag ("WorkWaypoint").transform.position, 1.0f) != true){
+            /*if(PointInsideSphere(transform.position,GameObject.FindGameObjectWithTag ("WorkWaypoint").transform.position, 1.0f) != true){
 				target = GameObject.FindGameObjectWithTag ("WorkWaypoint").transform;
 				aiFollow.target = target;
 			}else{
@@ -68,9 +83,19 @@ public class WorkLogic : MonoBehaviour {
 				int tempPosx = Random.Range(-2, 2);
 				int tempPosz = Random.Range(-2, 2);
 				target.position = new Vector3(transform.position.x + tempPosx,transform.position.y,transform.position.z + tempPosz);
-			}
+			}*/
 
-			aState = agentState.Working;
+            if (waypointIndex <= workWaypoints.Count) {
+
+                waypointIndex += 1;
+                aiFollow.target = workWaypoints[waypointIndex].transform;
+
+            }   else {
+                waypointIndex = 0;
+                aState = agentState.Working;
+            }
+
+			
 		}
 
 		/*

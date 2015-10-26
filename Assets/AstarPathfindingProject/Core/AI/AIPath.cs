@@ -46,7 +46,7 @@ public class AIPath : MonoBehaviour {
 	 * The AI will try to follow/move towards this target.
 	 * It can be a point on the ground where the player has clicked in an RTS for example, or it can be the player object in a zombie game.
 	 */
-	public Transform target;
+	public Vector3 target;
 
 	/** Enables or disables searching for paths.
 	 * Setting this to false does not stop any active path requests from being calculated or stop it from continuing to follow the current path.
@@ -58,6 +58,7 @@ public class AIPath : MonoBehaviour {
 	  * \see #canSearch */
 	public bool canMove = true;
 
+    public bool canPlaceTarget = true;
 	/** Maximum velocity.
 	 * This is the maximum speed in world units per second.
 	 */
@@ -140,11 +141,14 @@ public class AIPath : MonoBehaviour {
 		}
 	}
 
-	/** Holds if the Start function has been run.
+
+    float _start_time;
+    float elapsed;
+    /** Holds if the Start function has been run.
 	 * Used to test if coroutines should be started in OnEnable to prevent calculating paths
 	 * in the awake stage (or rather before start on frame 0).
 	 */
-	private bool startHasRun = false;
+    private bool startHasRun = false;
 
 	/** Initializes reference variables.
 	 * If you override this function you should in most cases call base.Awake () at the start of it.
@@ -154,6 +158,8 @@ public class AIPath : MonoBehaviour {
 
 		//This is a simple optimization, cache the transform component lookup
 		tr = transform;
+
+        target = transform.position;
 
 		//Cache some other components (not all are necessarily there)
 		controller = GetComponent<CharacterController>();
@@ -237,7 +243,7 @@ public class AIPath : MonoBehaviour {
 
 		lastRepath = Time.time;
 		//This is where we should search to
-		Vector3 targetPosition = target.position;
+		Vector3 targetPosition = target;
 
 		canSearchAgain = false;
 
@@ -250,18 +256,34 @@ public class AIPath : MonoBehaviour {
 	}
 
 	public virtual void OnTargetReached () {
-		//End of path has been reached
-		//If you want custom logic for when the AI has reached it's destination
-		//add it here
-		//You can also create a new script which inherits from this one
-		//and override the function in that script
-	}
+        //End of path has been reached
+        //If you want custom logic for when the AI has reached it's destination
+        //add it here
+        //You can also create a new script which inherits from this one
+        //and override the function in that script
 
-	/** Called when a requested path has finished calculation.
+        canPlaceTarget = true;
+
+        _start_time = Time.time;
+        elapsed = 0;
+    }
+
+    public void ResetTime()
+    {
+        _start_time = Time.time;
+    }
+
+    public void RequestNewTarget()
+    {
+        ResetTime();
+        target = new Vector3(Random.Range(-50, 50), 0, Random.Range(-15, 15));
+    }
+
+    /** Called when a requested path has finished calculation.
 	  * A path is first requested by #SearchPath, it is then calculated, probably in the same or the next frame.
 	  * Finally it is returned to the seeker which forwards it to this function.\n
 	  */
-	public virtual void OnPathComplete (Path _p) {
+    public virtual void OnPathComplete (Path _p) {
 		ABPath p = _p as ABPath;
 		if (p == null) throw new System.Exception ("This function only handles ABPaths, do not use special path types");
 
@@ -277,8 +299,16 @@ public class AIPath : MonoBehaviour {
 			return;
 		}
 
-		//Release the previous path
-		if (path != null) path.Release (this);
+        elapsed = Time.time - _start_time;
+
+        if (elapsed >= 10) {
+
+            RequestNewTarget();
+            StartCoroutine(RepeatTrySearchPath());
+        }
+
+        //Release the previous path
+        if (path != null) path.Release (this);
 
 		//Replace the old path
 		path = p;
