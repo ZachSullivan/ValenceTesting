@@ -18,8 +18,8 @@ public class WorkLogic : MonoBehaviour {
     public int wanderListSize;
 
     //Keep track of the current waypoint the agent moves to when working
-    //Counter associated to workWaypoints list index
-    int waypointIndex;
+    //Counter associated to workWaypoints & wanderWaypoints list index
+    int workWaypointIndex, wanderWaypointIndex;
 
     //Check if a target has been assigned, if yes wait, otherwise assign a new target
     bool assignedTarget;
@@ -48,7 +48,8 @@ public class WorkLogic : MonoBehaviour {
             wanderWaypoints.Add(new Vector3(Random.Range(-50, 50), 0, Random.Range(-50, 50)));
         }
 
-        waypointIndex = 0;
+        workWaypointIndex = 0;
+        wanderWaypointIndex = 0;
         assignedTarget = false;
 
         
@@ -66,7 +67,7 @@ public class WorkLogic : MonoBehaviour {
                 break;
             case agentState.Wandering:
 
-                aiFollow.target = wanderWaypoints[waypointIndex];
+                aiFollow.target = wanderWaypoints[wanderWaypointIndex];
 
                 break;
 		    case agentState.Hungry:
@@ -75,7 +76,7 @@ public class WorkLogic : MonoBehaviour {
 			
 		    case agentState.Working:
                 
-                aiFollow.target = workWaypoints[waypointIndex].transform.position;
+                aiFollow.target = workWaypoints[workWaypointIndex].transform.position;
                 
             
 			    //aState = agentState.Working;
@@ -98,8 +99,8 @@ public class WorkLogic : MonoBehaviour {
             //aiFollow.target.position = new Vector3(Random.Range(-50, 50), 0, Random.Range(-50, 50));
             //assignedTarget = false;
 
-            waypointIndex = Random.Range(0, wanderWaypoints.Count);
-            aiFollow.target = wanderWaypoints[waypointIndex];
+            wanderWaypointIndex = Random.Range(0, wanderWaypoints.Count);
+            aiFollow.target = wanderWaypoints[wanderWaypointIndex];
 
         }   else if (aState == agentState.Working){
 
@@ -114,8 +115,8 @@ public class WorkLogic : MonoBehaviour {
 				target.position = new Vector3(transform.position.x + tempPosx,transform.position.y,transform.position.z + tempPosz);
 			}*/
 
-            waypointIndex = Random.Range(0, workWaypoints.Count);
-            aiFollow.target = workWaypoints[waypointIndex].transform.position;
+            workWaypointIndex = Random.Range(0, workWaypoints.Count);
+            aiFollow.target = workWaypoints[workWaypointIndex].transform.position;
 
         }
 
