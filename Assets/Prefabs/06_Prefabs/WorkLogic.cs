@@ -85,7 +85,7 @@ public class WorkLogic : MonoBehaviour {
 				target.position = new Vector3(transform.position.x + tempPosx,transform.position.y,transform.position.z + tempPosz);
 			}*/
 
-            if (waypointIndex <= workWaypoints.Count) {
+            /*if (waypointIndex <= workWaypoints.Count) {
 
                 waypointIndex += 1;
                 aiFollow.target = workWaypoints[waypointIndex].transform;
@@ -93,10 +93,13 @@ public class WorkLogic : MonoBehaviour {
             }   else {
                 waypointIndex = 0;
                 aState = agentState.Working;
-            }
+            }*/
 
-			
-		}
+            waypointIndex = Random.Range(0, workWaypoints.Count);
+            aiFollow.target = workWaypoints[waypointIndex].transform;
+
+
+        }
 
 		/*
 		 * if State1 
