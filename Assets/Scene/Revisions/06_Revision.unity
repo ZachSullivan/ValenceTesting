@@ -1138,7 +1138,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 415085784}
   m_Layer: 0
-  m_Name: WorkWaypoint2 (2)
+  m_Name: WorkWaypoint4
   m_TagString: WorkWaypoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1384,7 +1384,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 557321270}
   m_Layer: 0
-  m_Name: WorkWaypoint2 (1)
+  m_Name: WorkWaypoint3
   m_TagString: WorkWaypoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
