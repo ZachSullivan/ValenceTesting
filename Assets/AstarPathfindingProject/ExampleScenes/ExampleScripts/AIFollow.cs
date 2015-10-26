@@ -8,9 +8,9 @@ using Pathfinding;
 [RequireComponent (typeof(CharacterController))]
 [AddComponentMenu("Pathfinding/AI/AIFollow (deprecated)")]
 public class AIFollow : MonoBehaviour {
-	
-	/** Target to move to */
-	public Transform target;
+
+    /** Target to move to */
+    public Vector3 target;
 	
 	/** How often to search for a new path */
 	public float repathRate = 0.1F;
@@ -169,7 +169,7 @@ public class AIFollow : MonoBehaviour {
 		//FloodPathTracer fpathTrace = new FloodPathTracer (transform.position,fpath,null);
 		//seeker.StartPath (fpathTrace,OnPathComplete);
 		
-		Path p = ABPath.Construct(transform.position,target.position,null);
+		Path p = ABPath.Construct(transform.position,target,null);
 		seeker.StartPath (p,OnPathComplete);
 		//Start a new path from transform.positon to target.position, return the result to the function OnPathComplete
 		//seeker.StartPath (transform.position,target.position,OnPathComplete);

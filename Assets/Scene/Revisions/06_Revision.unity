@@ -1216,7 +1216,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
 --- !u!114 &250013260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12161,7 +12161,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 424812, guid: 38f18ef5d7985ca4d8ddd536aa2307b9, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 13649980, guid: 38f18ef5d7985ca4d8ddd536aa2307b9, type: 2}
@@ -14718,6 +14718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b36992f36506964cb6c7d694bbd0654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  workLogic: {fileID: 1877775626}
 --- !u!1 &1716223071
 GameObject:
   m_ObjectHideFlags: 0
@@ -15394,6 +15395,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   workWaypoints: []
+  wanderWaypoints: []
+  wanderListSize: 20
   aState: 0
 --- !u!114 &1877775627
 MonoBehaviour:
@@ -15406,7 +15409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e3932a1dca084ae79dc5b44fbc9b2f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {x: 0, y: 0, z: 0}
   repathRate: .100000001
   pickNextWaypointDistance: 1
   targetReached: .200000003

@@ -7,6 +7,9 @@ public class GUIToggle : MonoBehaviour {
     protected bool showMenu = false;
     // Set showing the menu to false
 
+    //Assign agent fsm to this GUI
+    public WorkLogic workLogic;
+
     void OnMouseUp(){
 
         // When you click, change the variables value
@@ -22,7 +25,7 @@ public class GUIToggle : MonoBehaviour {
 
             if (GUI.Button(new Rect(10, 10, 100, 20), "Assign Agent")){
 
-                print("CLICKED");
+                workLogic.aState = WorkLogic.agentState.Working;
             }
 
     }
