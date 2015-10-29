@@ -15,7 +15,7 @@ public class AgentLogic_07 : MonoBehaviour {
     public List<Vector3> wanderWaypoints = new List<Vector3>();
 
     //Dictates the max number of waypoints agent can wander to
-    public int wanderListSize;
+    public int wanderListSize = 10;
 
     //Keep track of the current waypoint the agent moves to when working
     //Counter associated to workWaypoints & wanderWaypoints list index
@@ -24,7 +24,7 @@ public class AgentLogic_07 : MonoBehaviour {
     //Check if a target has been assigned, if yes wait, otherwise assign a new target
     bool assignedTarget;
 
-    AIFollow aiFollow;
+    AIFollow_07 aiFollow;
 
 	public enum agentState
 	{
@@ -34,14 +34,21 @@ public class AgentLogic_07 : MonoBehaviour {
 		Default
 	}
 
-	public agentState aState;
+    public enum jobSubState
+    {
+        Farmer,
+        Medic
+    }
 
-	void Start(){
+    public agentState aState;
+    public jobSubState jobState;
+
+    void Start(){
 
         
-        aiFollow = GetComponent<AIFollow>();
+        aiFollow = GetComponent<AIFollow_07>();
 
-        workWaypoints = new List<GameObject>(GameObject.FindGameObjectsWithTag("WorkWaypoint"));
+       
         wanderWaypoints = new List<Vector3>();
 
         while (wanderWaypoints.Count < wanderListSize) {
@@ -50,6 +57,7 @@ public class AgentLogic_07 : MonoBehaviour {
 
         workWaypointIndex = 0;
         wanderWaypointIndex = 0;
+        
         assignedTarget = false;
 
         
@@ -60,11 +68,7 @@ public class AgentLogic_07 : MonoBehaviour {
 
 	void Update() {
 		switch (aState) {
-            case agentState.Default:
 
-                print("Default reached in AgentFSM Update");
-
-                break;
             case agentState.Wandering:
 
                 aiFollow.target = wanderWaypoints[wanderWaypointIndex];
@@ -75,14 +79,32 @@ public class AgentLogic_07 : MonoBehaviour {
 			    break;
 			
 		    case agentState.Working:
-                
-                aiFollow.target = workWaypoints[workWaypointIndex].transform.position;
-                
-            
-			    //aState = agentState.Working;
+               
+                //Agent can be assigned various jobs each with their own behaviour
+                switch (jobState) {
+                    case jobSubState.Farmer:
+
+                        aiFollow.target = workWaypoints[workWaypointIndex].transform.position;
+
+                        break;
+                    case jobSubState.Medic:
+
+                        aiFollow.target = workWaypoints[workWaypointIndex].transform.position;
+
+                        break;
+
+                }
+                    
+
 			    break;
-		
-		}
+
+            case agentState.Default:
+
+                print("Default reached in AgentFSM Update");
+
+                break;
+
+        }
 	}
 
 	bool PointInsideSphere(Vector3 point, Vector3 center, float radius) {
@@ -96,24 +118,11 @@ public class AgentLogic_07 : MonoBehaviour {
 
 
         if (aState == agentState.Wandering){
-            //aiFollow.target.position = new Vector3(Random.Range(-50, 50), 0, Random.Range(-50, 50));
-            //assignedTarget = false;
 
             wanderWaypointIndex = Random.Range(0, wanderWaypoints.Count);
             aiFollow.target = wanderWaypoints[wanderWaypointIndex];
 
         }   else if (aState == agentState.Working){
-
-
-            /*if(PointInsideSphere(transform.position,GameObject.FindGameObjectWithTag ("WorkWaypoint").transform.position, 1.0f) != true){
-				target = GameObject.FindGameObjectWithTag ("WorkWaypoint").transform;
-				aiFollow.target = target;
-			}else{
-				//target.position = new Vector3 (Random.Range (-2, 2), 0, Random.Range (-2, 2));
-				int tempPosx = Random.Range(-2, 2);
-				int tempPosz = Random.Range(-2, 2);
-				target.position = new Vector3(transform.position.x + tempPosx,transform.position.y,transform.position.z + tempPosz);
-			}*/
 
             workWaypointIndex = Random.Range(0, workWaypoints.Count);
             aiFollow.target = workWaypoints[workWaypointIndex].transform.position;

@@ -19,7 +19,7 @@ public class AgentSpawner : MonoBehaviour {
     }
 
     void OnGUI() {
-        if (GUI.Button(new Rect(10, 10, 100, 20),"Create Agent")) {
+        if (GUI.Button(new Rect(100, 10, 100, 20),"Create Agent")) {
             SpawnAgent();
         }
     }
