@@ -9,6 +9,7 @@ TagManager:
   - Spawner
   - FarmWaypoint
   - HospitalWaypoint
+  - Hospital
   layers:
   - Default
   - TransparentFX

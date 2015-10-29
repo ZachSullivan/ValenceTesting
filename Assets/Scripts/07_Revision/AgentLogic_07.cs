@@ -36,6 +36,7 @@ public class AgentLogic_07 : MonoBehaviour {
 
     public enum jobSubState
     {
+        Default,
         Farmer,
         Medic
     }
@@ -93,6 +94,12 @@ public class AgentLogic_07 : MonoBehaviour {
 
                         break;
 
+                    case jobSubState.Default:
+
+                        print("Default reached in Working SubState in AgentLogic_07 Update");
+
+                        break;
+
                 }
                     
 
@@ -100,7 +107,7 @@ public class AgentLogic_07 : MonoBehaviour {
 
             case agentState.Default:
 
-                print("Default reached in AgentFSM Update");
+                print("Default reached in AgentLogic_07 Update");
 
                 break;
 

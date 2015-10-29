@@ -6,6 +6,9 @@ public class AgentSpawner : MonoBehaviour {
     //Reference agent for spawner, user must assign this in the Inspector
     public GameObject Agent;
 
+    //Current number of agents alive;
+    public int popSize;
+
     void Start() {
         SpawnAgent();
     }
@@ -16,6 +19,8 @@ public class AgentSpawner : MonoBehaviour {
         GameObject newAgent = (GameObject)Instantiate(Agent, new Vector3(0, 0.51f, 0), Quaternion.identity);
 
         newAgent.name = "Agent" + newAgent.GetInstanceID();
+
+        popSize += 1;
     }
 
     void OnGUI() {
